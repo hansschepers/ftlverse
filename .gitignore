@@ -20,6 +20,7 @@
 
 # RStudio files
 .Rproj.user/
+ftlverse.Rproj
 
 # produced vignettes
 vignettes/*.html

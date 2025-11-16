@@ -1,0 +1,24 @@
+Package: ftlverse
+Type: Package
+Title: ODE modelling tools
+Version: 0.0.9-9001
+Date: 2025-11-16
+Author: Hans Schepers
+Maintainer: Hans Schepers <hans.schepers@gmail.com>
+Description: GSA
+License: What license is it under?
+Encoding: UTF-8
+Imports:
+    bslib,
+		data.table,
+		deSolve,
+		glue,
+		ggplot2,
+		logger,
+		lubridate,
+		numDeriv,
+		reactlog,
+		readxl,
+		shiny,
+		stringi
+RoxygenNote: 7.3.2
