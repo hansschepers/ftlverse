@@ -77,6 +77,9 @@ pggs <- function(dfg
                  , facetscales = NULL
                  , free_y = "auto", free_x = FALSE
                  , hash = c("none", "auto")[1]
+                 , hiyois = c("temperature", "W")[0]
+                 , hiyoisColor = "#ffff11"
+                 , hiyoisAlpha = 0.3
                  
                  , factorIgnore = character()
                  , alwaysAtStart = character(0)
@@ -93,7 +96,7 @@ pggs <- function(dfg
                  , ggplotly = FALSE
                  , docuCall = FALSE
                  , p = "new" # geom_blank()
-                 , more = "none"
+                 , more = character(0)
                  , tz.oi = NULL
                  , dateformat.oi = NULL
                  #
@@ -294,6 +297,7 @@ pggs <- function(dfg
   if (is.null(verbosity)){
     verbosity <- log_threshold()
   }
+  verbosity <- 10000
   # if (verbosity >= 1000){
   #   checkMaskings()
   # }
@@ -585,10 +589,10 @@ pggs <- function(dfg
       log_warn("strange.. while converting from tz {xoi} to {tz.oi}")
       # str(dfg)
     }
-    more <- paste0('scale_x_datetime(labels = function(x) format(x, "'
+    more <- c(more, paste0('scale_x_datetime(labels = function(x) format(x, "'
                    , dateformat.oi
                    ,'", tz = "'
-                   , tz.oi ,'"))')
+                   , tz.oi ,'"))'))
   }
   
   
@@ -1733,7 +1737,7 @@ pggs <- function(dfg
     if (free_y) facetscales = "free_y"
     if (free_x) facetscales = "free_x"
     if (free_y & free_x) facetscales = "free"
-    
+  
     if (!is.null(facet_w)) {
       p <- p + facet_wrap(
         as.formula(paste("~", as.name(facet_w)))
@@ -1763,6 +1767,27 @@ pggs <- function(dfg
       #   color="black", fill="#ffffff", size=14, linetype="solid"))
     }
     # to remove striprectangles: p <- p + ggplot2::theme(strip.background = ggplot2::element_blank())
+    
+    
+    # hiyois = c("SGR", "temperature")
+    if (length(hiyois)){
+      more <- c(more, 'scale_fill_identity()')
+      variable.name <- aphVariables(as.data.table(dfg))
+      str(variable.name)
+      backgr <- unique(as.data.table(dfg)[, ..variable.name])
+      backgr[, bcol := ifelse(get(variable.name) %in% hiyois, hiyoisColor, NA)]
+      p <- p + geom_rect(data = backgr,
+                  aes(fill = bcol),
+                  xmin = -Inf, xmax = Inf, 
+                  ymin = -Inf, ymax = Inf,
+                  alpha = hiyoisAlpha,  # Transparency [dimensionless]
+                  inherit.aes = FALSE )
+    }
+    if (length(hiyois)){
+      p <- p + scale_fill_identity()
+    }
+    
+    
     if (!legend %in% c("auto")) {
       p <- p + ggplot2::theme(legend.position = legend
                               , legend.text = ggplot2::element_text(size=legendSize))
@@ -2221,6 +2246,11 @@ pggs <- function(dfg
   }
   if(verbosity > 550) .p008 <<- p
   
+  if (length(hiyois)){
+    p <- p + scale_fill_identity()
+  }
+  
+  
   if (is.null(chunkId) & g.reqCnk) g.addRmd <- FALSE
   
   #   if (doplot)
@@ -2302,6 +2332,7 @@ pggs <- function(dfg
 #' @author Hans.Schepers@@gmail.com
 #' @export
 paddp <- function(p, more = "none"){
+  if (!length(more)) return(p)
   if (more[1] == "none") return(p)
   for (imore in more){
     p <- eval(parse(text = paste("p + ", imore)))

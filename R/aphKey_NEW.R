@@ -60,7 +60,7 @@ aphKey <- function(
     setkeyv(DT, newKeys)
   }
   # print(key(DT))
-  newKeys
+  invisible(structure(DT, newKeys = newKeys))
 }
 
 

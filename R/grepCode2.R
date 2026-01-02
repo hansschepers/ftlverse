@@ -8,19 +8,19 @@ preAbbr.s <- list(aph = "C:/Users/Lenovo/OneDrive/Documents/APH/aphDHfromRPI/aph
                   , ai = "C:/Users/Lenovo/Documents/R/AI_test")
 
 
-#'  grepCode2
-#'  @examples \dontrun{
-#'    library(logger) ; library(data.table)
-#'    grepCode2("anthropic")
-#'    grepCode2("runFun")
-#'    grepCode2("getPcaScenarioDT")
-#'    grepCode2("wrangle")
-#'    grepCode2("base")
-#'    grepCode2("output_struct", Rdir = c("m"))
-#'    grepCode2("std", Rdir = c("mdeb"))
-#'    #alldeb <- sapply(.ffr.s, readLines)
-#'  }
-#'  @export
+#' grepCode2
+#' @examples \dontrun{
+#'  library(logger) ; library(data.table)
+#'  grepCode2("anthropic")
+#'  grepCode2("runFun")
+#'  grepCode2("getPcaScenarioDT")
+#'  grepCode2("wrangle")
+#'  grepCode2("base")
+#'  grepCode2("output_struct", Rdir = c("m"))
+#'  grepCode2("std", Rdir = c("mdeb"))
+#'  #alldeb <- sapply(.ffr.s, readLines)
+#' }
+#' @export
 grepCode2 <- function(rege
                       , Rdir = c("r", "aph", "ftl", "ai", "m", "mdeb", "amp")[1]
                       , patt = "\\.[rR]$"

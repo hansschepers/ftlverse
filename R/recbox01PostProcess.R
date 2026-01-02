@@ -1,9 +1,8 @@
-#'  recbox01PostProcess
-#'  @examples \dontrun{
+#' recbox01PostProcess
+#' @examples \dontrun{
 #'    pggs(aphMelt(recbox01Alg(), fois = "gc"), logx = TRUE)
-#'  }
-#'  
-#'  @export
+#' }
+#' @export
 recbox01PostProcess <- function(out = data.frame()
                         , parms = recbox01Parms()
                         , timeSeries = FALSE){

@@ -38,7 +38,7 @@ aphPca <- function (dfg
                     , arrowList = list(angle = 30, length = unit(0.15, "inches"), ends = "last", type = "open")
                     , yoisaxis = "" #character(0)
                     , naxis = min(3, max(0, length(yoisaxis)))
-                    , yoisaxistype = c("none", "auto", "range", "given")[3]
+                    , yoisaxistype = c("none", "auto", "range", "given")[1]
                     , axisdigitsgiven = rep(2, naxis), yoiStepgiven = rep(1, naxis)
                     , orangeoutside = FALSE
                     , outward.scores = TRUE, labelSize = 5, mega = FALSE, geom = "point"

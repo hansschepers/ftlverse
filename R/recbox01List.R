@@ -1,5 +1,5 @@
-#'  recbox01List
-#'  @examples \dontrun{
+#' recbox01List
+#' @examples \dontrun{
 #'    pp <- recbox01Parms()
 #'    hprettyNum(pp)
 #'    pp2 <- recbox01List(pp)
@@ -35,9 +35,8 @@
 #'    dd
 #'    pggs(dd, xoi = "gc", yoi = "M_c", logx = TRUE)
 #'    pggs(aphMelt(dd), xoi = "gc", logx = TRUE, fsize = 8)
-#'  }
-#'  
-#'  @export
+#' }
+#' @export
 recbox01List <- function(parmsUsed = recbox01Parms()
                          , editList = list()
                          , time = NA

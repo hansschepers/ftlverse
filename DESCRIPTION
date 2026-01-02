@@ -1,11 +1,11 @@
 Package: ftlverse
 Type: Package
 Title: ODE modelling tools
-Version: 0.0.9-9002
-Date: 2025-11-16
+Version: 0.0.9-9003
+Date: 2026-01-02
 Author: Hans Schepers
 Maintainer: Hans Schepers <hans.schepers@gmail.com>
-Description: GSA
+Description: pggs (ggplot wrapper) data.table conventions
 License: What license is it under?
 Encoding: UTF-8
 Imports:

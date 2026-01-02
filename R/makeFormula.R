@@ -29,7 +29,9 @@ makeFormula <- function(lhs, rhs, swap = FALSE, intercept = ""){
 
 
 #' formu2terms
-#' @example inst/example/e_formula.R
+#' @examples \dontrun{
+#'   inst/example/e_formula.R
+#' }
 #' @export
 formu2terms <- function(formu){
   tt <- terms.formula(as.formula(formu))

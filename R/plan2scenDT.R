@@ -1,5 +1,7 @@
 #' makescenPlan
-#' @example inst/example/e_planCombi.R
+#' @examples \dontrun{
+#'   inst/example/e_planCombi.R
+#' }
 #' @export
 makescenPlan <- function(variedParameters = character()
                          , paramGroup = character()

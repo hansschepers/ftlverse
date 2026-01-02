@@ -33,12 +33,12 @@ mergeParameters <- function(p0, p1, enrichFUN = NULL
 ){
   p0 <- as.list(p0)
   p1 <- as.list(p1)
-  if (verbosity >= 500){
+  if (verbosity >= 500){  # DEBUG level
     nms <- setdiff(intersect(names(p0), names(p1)), c(NA))
     sapply(nms, \(x) {
       new <- p1[[x]]
       old <- p0[[x]]
-      print(glue::glue("replacing parameter {nms} from {old} to {new}"))
+      print(glue::glue("replacing parameter {x} from {old} to {new}"))
     })
   }
   if (verbosity >= 500){
@@ -46,7 +46,7 @@ mergeParameters <- function(p0, p1, enrichFUN = NULL
     sapply(nms, \(x) {
       new <- p1[x]
       vv <- dput(new)
-      print(glue::glue("adding parameter {nms} to {vv}"))
+      print(glue::glue("adding parameter {x} to {vv}"))
     })
   }
   # p0[nms] <- p1[nms]

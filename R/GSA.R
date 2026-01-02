@@ -164,7 +164,9 @@ jac2ddsens <- function(jacobian_matrix2
 
 
 #' hmodulo
-#' @example hmodulo(times, .1)
+#' @examples \dontrun{
+#'   hmodulo(times, .1)
+#' }
 #' @export
 hmodulo <- function(times, modulo, dig = 1000){
   times[0 == (round(dig * times) %% 

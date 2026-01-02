@@ -1,5 +1,5 @@
 #'  recbox01Parms
-#'  @export
+#' @export
 recbox01Parms <- function(){
   list(gc = 1, g0 = 0, TT = 0.1, beta = 1   # stimulus
        , k_1 = 1, L1 = 10, L2 = 0.1, IR = 1, FF = 1, cc = 1  # kinetics
@@ -8,8 +8,8 @@ recbox01Parms <- function(){
 
 
 
-#'  recbox01par2par
-#'  @examples \dontrun{
+#' recbox01par2par
+#' @examples \dontrun{
 #'    pp <- recbox01Parms()
 #'    hprettyNum(pp)
 #'    pp2 <- recbox01par2par(pp)
@@ -25,9 +25,8 @@ recbox01Parms <- function(){
 #'    compareNames(pp1, pp3)
 #'    
 #'    compareLists(pp2, pp3)
-#'  }
-#'  
-#'  @export
+#' }
+#' @export
 recbox01par2par <- function(parmsUsed
                             , time = NA
                             , conserve = TRUE
