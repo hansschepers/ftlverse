@@ -277,7 +277,7 @@ pggs <- function(dfg
                  , slideTitle = title
                  , slideText = "-"
                  , LOGLEVEL = 300
-                 , verbosity = NULL
+                 , verbosity = 0
                  , whatToReturnUponEmpty = list(ggplot2::ggplot()
                                                 , ggplot2::geom_blank()
                                                 , NULL)[[1]]
@@ -295,9 +295,8 @@ pggs <- function(dfg
     log_threshold <- function(...) structure(LOGLEVEL, level = "INFO", class = c("loglevel", "integer"))
   }
   if (is.null(verbosity)){
-    verbosity <- log_threshold()
+    verbosity <- as.numeric(log_threshold())
   }
-  verbosity <- 10000
   # if (verbosity >= 1000){
   #   checkMaskings()
   # }
@@ -1773,7 +1772,6 @@ pggs <- function(dfg
     if (length(hiyois)){
       more <- c(more, 'scale_fill_identity()')
       variable.name <- aphVariables(as.data.table(dfg))
-      str(variable.name)
       backgr <- unique(as.data.table(dfg)[, ..variable.name])
       backgr[, bcol := ifelse(get(variable.name) %in% hiyois, hiyoisColor, NA)]
       p <- p + geom_rect(data = backgr,
