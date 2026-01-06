@@ -13,9 +13,10 @@ ftlr_init <- function(){
 
 #' run_ftlr_model
 #' @examples \dontrun{
-#'   run_ftlr_model(model_oi = "compost001", editList0 = list(p_a = 20))
+#'   ww <- run_ftlr_model(model_oi = "test_fish1")
 #'   run_ftlr_model(model_oi = "compost001", editList = list(p_a = 30))
 #' }
+#' @export
 run_ftlr_model <- function(model_oi
                            , editList0 = list()
                            , editList = list()

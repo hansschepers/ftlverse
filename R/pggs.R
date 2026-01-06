@@ -1716,14 +1716,16 @@ pggs <- function(dfg
   
   
   if (grepl("tile", geom)){
-    log_trace("for tile: foi {foi}")
-    xx <- table(dfg[, foi], useNA = "always")
-    if (length(xx) > 21){
-      xx <- xx[1:length(xx)]
-    }
-    print(xx)
+    # log_trace("for tile: foi {foi}")
+    # xx <- table(dfg[, foi], useNA = "always")
+    # if (length(xx) > 21){
+    #   xx <- xx[1:length(xx)]
+    # }
+    # print(xx)
     p <- p + geom_tile(data = dfg
-                       , aes_string(x=as.name(xoi), y=as.name(yoi), fill = foi))
+                       , aes_string(x = as.name(xoi)
+                                    , y = as.name(yoi)
+                                    , fill = as.name(zoi)))
     # p <- p + scale_fill_manual(values=c("green", "yellow", "red"), 
     #                     breaks = c("green", "yellow", "red"))
     if(verbosity > 550) .pTile <<- p

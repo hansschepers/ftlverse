@@ -1,8 +1,8 @@
 Package: ftlverse
 Type: Package
 Title: ODE modelling tools
-Version: 0.0.9-9004
-Date: 2026-01-04
+Version: 0.0.9-9005
+Date: 2026-01-06
 Author: Hans Schepers
 Maintainer: Hans Schepers <hans.schepers@gmail.com>
 Description: pggs (ggplot wrapper) data.table conventions
