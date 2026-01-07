@@ -271,7 +271,7 @@ pggs <- function(dfg
                  , png = NULL, pngdir = "."
                  # for vrmd:
                  , ggwidth = 14, ggheight = 8  # inch
-                 , childWidth = "100%"
+                 , childWidth2 = "100%"
                  , dpi = 96
                  , allowppt = TRUE, addppt = FALSE
                  , slideTitle = title
@@ -505,7 +505,7 @@ pggs <- function(dfg
   if (length(label) > 1)     {dfg <- haddKey(dfg, label,      sep = hsep, keyID="labelKey")   ; label <- "labelKey"}
   if (length(foi) > 1)       {dfg <- haddKey(dfg, foi,        sep = hsep, keyID="foiKey")     ; foi <- "foiKey"  }
   if (length(facet_w) > 1)   {dfg <- haddKey(dfg, facet_w,    sep = hsep, keyID="facet_wKey") ; facet_w <- "facet_wKey"}
-  if (length(facet_g) > 1)   {dfg <- haddKey(dfg, facet_g,    sep = hsep, keyID="facet_gKey") ; facet_g <- "facet_gKey"}
+  # if (length(facet_g) > 1)   {dfg <- haddKey(dfg, facet_g,    sep = hsep, keyID="facet_gKey") ; facet_g <- "facet_gKey"}
   if (length(group) > 1)     {dfg <- haddKey(dfg, group,      sep = hsep, keyID="groupKey")   ; group <- "groupKey"}
   # if (length(labelColor) > 1){dfg <- haddKey(dfg, labelColor, sep = hsep, keyID="labelColor") ; labelColor <- "labelColor"}
   
@@ -762,7 +762,7 @@ pggs <- function(dfg
   
   ################################################ facet_w
   if (!is.null(facet_g)) {
-    if (!facet_g %in% c("nothing", "none")){
+    if (!as.character(facet_g)[1] %in% c("nothing", "none")){
       if (facetlabeller == "auto"){
         # facetlabeller <- "label_both"
         facetlabeller <- "label_value"
@@ -2273,7 +2273,7 @@ pggs <- function(dfg
                           , chartClassAdded = chartClassAdded
                           , doTabbed = doTabbed
                           , dpi = dpi
-                          , childWidth = childWidth
+                          , childWidth2 = childWidth2
       )
       
       if (FUN == "vppt"){

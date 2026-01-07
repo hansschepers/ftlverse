@@ -46,6 +46,7 @@ vrmd <- function(
     , overwrite = TRUE 
     , htmlString = NULL # for do == "html"
     , dfg = NULL
+    , kableCaption = ""
     , scrollboxDim = c(800, 200)[0]
     , bsOptions = c("striped", "basic")[2]
     , kableStylingString = paste0('|> kable_styling(bootstrap_options = "'
@@ -372,7 +373,7 @@ knitr::opts_chunk$set(echo = FALSE)\n\
       }
     }
     
-    
+    headerData$repId <- repId
     myGlobalRmd[[repId]] <- list(ffrmd = ffrmd
                                  , output_file = output_file
                                  , tmpdir = tmpdir
@@ -661,7 +662,8 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     }
     
     if (length(scrollboxDim) > 1){
-      kableChainFunctions <- paste0(' |> scroll_box(width = "', scrollboxDim[1],'px", height = "', scrollboxDim[2],'px")')
+      kableChainFunctions <- paste0(' |> scroll_box(width = "', scrollboxDim[1]
+                                    ,'px", height = "', scrollboxDim[2],'px")')
     } else {
       kableChainFunctions <- ''
     }
@@ -669,8 +671,10 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     
     child <- paste0(
       chunkSection,
-      "\n```{r echo = FALSE}\n",  #results = FALSE, eval=FALSE, echo = TRUE
-      'kable(myGlobalRmd[[repId]]$headerData[["',tableId,'"]])'
+      "\n```{r echo = FALSE}\n"  #results = FALSE, eval=FALSE, echo = TRUE
+      , 'kbl(myGlobalRmd[[repId]]$headerData[["',tableId,'"]]'
+      , ', caption = "', kableCaption, '"'
+      , ')'
       , kableStylingString
       , kableChainFunctions
       ,'\n```\n\n'
