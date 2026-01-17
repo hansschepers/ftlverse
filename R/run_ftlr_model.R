@@ -2,7 +2,7 @@
 ftlr_init <- function(){
   owd <- getwd()
   owd <<- owd
-  FTLHOME <- "C:/Users/Lenovo/Documents/R/MAC/inst/FTLR"
+  FTLHOME <- "C:/Users/Lenovo/Documents/R/model_UQ/inst/FTLR"
   setwd(FTLHOME)
   
   source("utils/initFTLR.R")
@@ -31,8 +31,8 @@ run_ftlr_model <- function(model_oi
     print(hprettyNum(SIMS_0$parms))
   }
   .SIMS_0 <<- SIMS_0
-  source("C:/Users/Lenovo/Documents/R/MAC/inst/FTLR/utils/plot2sims.R", local = TRUE)
-  source("C:/Users/Lenovo/Documents/R/MAC/inst/FTLR/utils/plot2sims.R", local = FALSE)
+  source("C:/Users/Lenovo/Documents/R/model_UQ/inst/FTLR/utils/plot2sims.R", local = TRUE)
+  source("C:/Users/Lenovo/Documents/R/model_UQ/inst/FTLR/utils/plot2sims.R", local = FALSE)
   if(!length(editList)){
     p <- plot(SIMS_0)
   } else {

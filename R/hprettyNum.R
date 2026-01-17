@@ -19,31 +19,36 @@ hprettyNum <- function(x
                        , format = c("%Y-%m-%d %H:%M:%S", "%Y-%m-%d")[1]
                        , NAblank = TRUE
                        , asNum = FALSE
+                       , omit = character()
                        , ...) {
   if (!length(x)) return(x)
   digits <- pmax(1, digits)
   if (inherits(x, c("matrix"))) {
     x <- as.data.table(x, keep.rownames = TRUE)
   }
+  
+  ####################################### recursive call!! (do for each column)
   if (inherits(x, c("data.frame", "data.table"))) {
     # wide DT only!
     fois <- union(aphTimes(x), aphFactors(x))
+    fois <- setdiff(fois, omit)
+    # str(fois)
     yois <- setdiff(names(x), fois)
+    yois <- setdiff(yois, omit)
+    # str(yois)
     xfois <- as.list(x)[fois]
     xyois <- as.list(x)[yois]
-    # recursive call!
-    # wc <- lapply(xyois, hprettyNum
-    #              , digits = digits, abb = abb, tol = tol, format = format
-    #              #, ...
-    # )
-    ################################### do for each column
+    
     wc <- mapply(hprettyNum, xyois
-                 , digits = digits, abb = abb, tol = tol, format = format, asNum = asNum
+                 , digits = digits, abb = abb, tol = tol
+                 , format = format, asNum = asNum
+                 # , omit = character()
                  , MoreArgs = list(...)
                  , SIMPLIFY = FALSE
     )
     wc <- c(as.list(xfois), wc)
   }
+  
   if (inherits(x, "data.table")) {
     wc <- data.table::as.data.table(wc)
     return(wc)

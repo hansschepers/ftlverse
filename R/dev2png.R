@@ -91,7 +91,7 @@ dev2png <- function(p = NULL
       htmlwidgets::saveWidget(
         p
         , file = ffhtml
-        # , selfcontained = TRUE
+        , selfcontained = TRUE
         # , background = "#ccccff"
         # , title = "test"
         # , knitrOptions = list(fig.width = ggwidth

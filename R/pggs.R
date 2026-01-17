@@ -64,6 +64,7 @@ pggs <- function(dfg
                  , group = foi
                  , autoYoi = FALSE
                  , doMelt = FALSE
+                 , keep.rownames = TRUE
                  , variable.factor = FALSE
                  , argsMelt = list()
                  , extractElement = "cropLong"
@@ -260,7 +261,9 @@ pggs <- function(dfg
                  , yaxisNewlines = c(0, 0)
                  , xaxisNewlines = c(0, 0)
                  , xangle=0, yangle=0
-                 , xsize=fsize, ysize=fsize, stripSize=fsize
+                 , xsize=fsize, ysize=fsize
+                 , stripSize=fsize
+                 , strips = "auto"
                  , logy=FALSE, logx=FALSE, flip=FALSE
                  
                  , palette.oi = pggsPALETTE
@@ -349,6 +352,12 @@ pggs <- function(dfg
     dfg <- as.data.frame(dfg)
   }
   
+  if (keep.rownames & is.data.frame(dfg) & !is.data.table(dfg)) {
+    dfg <- as.data.frame(as.data.table(dfg, keep.rownames = T))
+    .dfg.keep <<- dfg
+  }
+  
+  
   if(doMelt) {
     argsMelt <- mergeParameters(argsMelt
                                 , list(DT = dfg
@@ -357,6 +366,7 @@ pggs <- function(dfg
     if (autoKey){
       aphKey(dfg, alwaysAtStart = alwaysAtStart, factorIgnore = factorIgnore)
     }
+    .dfg_afterMelt <<- dfg
   }
   if(doMelt | length(yoisOUT)) {
     if (!length(yois)) {
@@ -1767,7 +1777,9 @@ pggs <- function(dfg
       # p <- p + ggplot2::theme(strip.background = ggplot2::element_rect(
       #   color="black", fill="#ffffff", size=14, linetype="solid"))
     }
-    # to remove striprectangles: p <- p + ggplot2::theme(strip.background = ggplot2::element_blank())
+    if (strips == "none"){
+      p <- p + ggplot2::theme(strip.background = ggplot2::element_blank())
+    }
     
     
     # hiyois = c("SGR", "temperature")

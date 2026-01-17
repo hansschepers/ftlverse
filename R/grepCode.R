@@ -62,6 +62,7 @@ grepCode <- function(rege = c("redux::", "<-function\\(")[1]
   } else {
     log_info("scanning {nffr.s} files, see .ffr.s")
   }
+  print(paste("looking for: ", rege))
   
   ffr.sToScan <- ffr.s[seq(min(nffr.s, maxFiles))]
   .ffr.sToScan <<- ffr.sToScan
@@ -71,7 +72,7 @@ grepCode <- function(rege = c("redux::", "<-function\\(")[1]
     # .codeLines <<- codeLines
     codeLinesFiltered <- gsub(" ", spacesTo, codeLines, useBytes = T)
     grep(rege[1], codeLinesFiltered, value = TRUE
-         , ignore.case = ignore.case
+         # , ignore.case = ignore.case
          , fixed = TRUE
          # , useBytes = T
          )

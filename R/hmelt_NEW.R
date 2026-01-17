@@ -17,14 +17,22 @@ aphMelt <- function(DT
                     # , ignoreAsDois = c("wk", "week", "weekno", "wss", "weeknoFactor")
                     , verbosity = log_threshold()
                     , caseSensitive = TRUE
+                    , keep.rownames = TRUE
                     , ...
 ){
+  if (!length(DT)) {message("aphMelt | can't melt NULL") ; return(NULL)}
   wasDT <- inherits(DT, "data.table")
+  if (keep.rownames & !is.data.frame(DT)) {  # if it was a matrix?
+    DT <- as.data.table(DT, keep.rownames = T)
+  }
+  if ("rn" %in% names(DT)){
+    extra_id.vars <- union(extra_id.vars, "rn")
+  }
   DT <- copy(as.data.table(DT))
   keep <- names(DT)
   keep <- setdiff(keep, omit)
   DT <- DT[, ..keep]
-  if (!wasDT) DTm <- as.data.frame(DTm)
+  # if (!wasDT) DTm <- as.data.frame(DT)
   
   if (ignoreAsDois[1] == "auto"){
     ignoreAsDois <- character()
@@ -71,7 +79,8 @@ aphMelt <- function(DT
   if (verbosity >= 600) log_debug("variable.name, {paste(variable.name, collapse = ',')}")
   wasDT <- inherits(DT, "data.table")
   DT <- as.data.table(DT)
-  if (is.null(id.vars)) id.vars <- character(0)
+  if (is.null(id.vars)) id.vars <- extra_id.vars# character(0)
+  
   DTm <- data.table::melt(makeDouble(DT)
                           , id.vars = id.vars
                           , value.name = value.name
