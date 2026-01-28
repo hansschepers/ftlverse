@@ -370,9 +370,10 @@ pggs <- function(dfg
   }
   if(doMelt | length(yoisOUT)) {
     if (!length(yois)) {
-    yois <- aphVariableLevels(dfg)
+      yois <- aphVariableLevels(dfg)
     }
   }
+  yois <- setdiff(yois, yoisOUT)
   
   if(length(subset)) {
     dfg <- as.data.frame(as.data.table(dfg[eval(subset)]))
@@ -1001,7 +1002,6 @@ pggs <- function(dfg
   if(verbosity > 550) .dfgBeforeFilters <<- as.data.table(dfg)
   
   if (length(yois)){
-    yois <- setdiff(yois, yoisOUT)
     # print(yois)
     afterRibbonFilterText <- setdiff(afterRibbonFilterText, "TRUE")
     afterRibbonFilterText <- union(afterRibbonFilterText
