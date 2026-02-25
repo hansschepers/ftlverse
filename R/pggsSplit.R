@@ -20,6 +20,7 @@ pggsSplit <- function(dfg
                   , input = pggsInput
                   , subtitle = names(ww)[ii]
                   , ... ) })
+  require(patchwork)
   Reduce("+", pList)
 }
 

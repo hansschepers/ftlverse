@@ -115,6 +115,7 @@ compareNames <- function(..., namesOnly = TRUE){
 #' compareLists
 #' @examples \dontrun{
 #'   compareLists(list(a=3, b=4), list(a=8))
+#'   compareLists(list(a=3, b=4), list(a=8, b = 4))
 #'   modelId <- "sourceSinkModel12"
 #'   list1 <- do.call(get(paste0(modelId, "Parms")), list())
 #'   list2 <- readVensimParms("sourceSinkModel06")
@@ -235,9 +236,10 @@ compareLists <- function(list1
   # .cc1 <<- sapply(list1[toUse], class)
   # .cc2 <<- sapply(list2[toUse], class)
   different <- abs(unlist(list1[toUse]) - unlist(list2[toUse])) > tol
-  if (verbosity > 400) {
-    different <- !isFALSE(different)
-  }
+  # str(different)
+  # if (verbosity > 400) {
+  #   different <- !isFALSE(different)
+  # }
   # str(different)
   
   parameterDifferences <- data.frame(list1 = unlist(list1[toUse][different])

@@ -72,7 +72,6 @@ hPlot.default <- function(dfg = ToothGrowth
   #   }
   # }
   
-  message(70)
   return(p0)
 }
 
@@ -94,8 +93,11 @@ hPlot.default <- function(dfg = ToothGrowth
 hPlot.SIMS <- function(SIMS
                        , yGroups
                        , yGroupPatterns
+                       , dt_oi = "results"
                        , legend = "none"
                        , ...){
+  dtlong <- aphMelt(SIMS[[dt_oi]])
+  
   if (missing(yGroups)){
     if(exists("yGroups", envir = .GlobalEnv)){
       message("yGroups missing, taking from .GlobalEnv")
@@ -113,10 +115,11 @@ hPlot.SIMS <- function(SIMS
     }
   }
   
-  tmpLong <- copy(SIMS$dtlong)
+  tmpLong <- copy(dtlong)
   tmpLong <- addYgroups(tmpLong
                                  , pattern = yGroupPatterns
                                  , yGroups = yGroups)
   aphKey(tmpLong)
+  .tmpLong <<- copy(tmpLong)
   pggs(tmpLong, legend = legend, ...)
 }

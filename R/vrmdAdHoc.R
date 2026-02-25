@@ -36,6 +36,7 @@ vrmdAdHoc <- function(productId = "p0"
   g.doTabbed <<- 3
   # if (!is.null(section)) vrmd(section = section)
   
+  log_debug("------------------------------------------------------------39")
   nn <- names(p_List)
   obj <- seq_along(p_List)[1]
   for (obj in seq_along(p_List)){
@@ -70,7 +71,7 @@ vrmdAdHoc <- function(productId = "p0"
              , chunkId = nm)
       }}
   }
-  
+  log_debug("------------------------------------------------------------73")
   
   if (!is.null(localPath)){
     if (file.exists(localPath)){

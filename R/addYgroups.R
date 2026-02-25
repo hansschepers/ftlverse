@@ -15,14 +15,12 @@
 #' @export
 addYgroups <- function(
   dtm
-  , pattern = unique(sapply(strsplit(as.character(unique(dtm[,get(variable.name)]))
-                                     , "[042_\\.]"), `[[`, 1))
+  , pattern = character(0)#unique(sapply(strsplit(as.character(unique(dtm[,get(variable.name)])), "[042_\\.]"), `[[`, 1))
   , rest = character(0)
   , yGroups = list(SourceSink = c("surplus", "sink", "source", "photosynthesis")
                    , fractions = c("maintenance.frac", "effect"
                                    , "fruit2plant.perc", "radiation.satu", "settingsuccess")
-                   , temperatures = c("temp_air", "tem24hr", "temp")
-                   , radiation = "radiation.driver", "radiation.led", "radiation.tot")
+                   , temperatures = c("temp_air", "tem24hr", "temp"))
   , groups = list()
   , removeZeroRange = TRUE
   , panel.out = character(0)

@@ -35,7 +35,9 @@
 #' @export
 vrmd <- function(
     do = "nothing"  # "info"
-    , p = NULL, ffpng.in=NULL, ffpng.out=NULL, file="tmp.ppt"
+    , p = NULL
+    # , ffpng.in=NULL
+    , ffpng.out=NULL, file="tmp.ppt"
     , doTabbed = 0
     , tabbedSectionModifier = character(0)
     
@@ -66,6 +68,7 @@ vrmd <- function(
     , showComments = c("none", "all", "partial")[3]
     , dropLatexDrop = TRUE
     , showCode = TRUE
+    , codeGiven = character(0)
     , keepRoxygen = TRUE
     , outputStyle = "html"#, "ftlStyle"#, "blank")[1]
     , sectionNumbering = FALSE
@@ -82,6 +85,7 @@ vrmd <- function(
     # , githubPath = "https://github.com/bayer-int/"    
     , githubPath = "https://github.com/hansschepers/"
     , ffmd = "test.md"
+    , ffdot = "test.dot"
     , ffhtml = NULL
     , outputFilename = paste0(repId, ".rmd")  #TODO not prepared ofr repId from g.repId
     , reportTitle = paste("Report: ", repId)        #TODO not prepared ofr repId from g.repId
@@ -560,7 +564,11 @@ knitr::opts_chunk$set(echo = FALSE)\n\
         )
       textFromFile <- paste(textFromFile, collapse = "\n")
     } else {
-      textFromFile <- ""
+      if (!length(codeGiven)){
+        textFromFile <- ""
+      } else {
+        textFromFile <- codeGiven
+      }
     }
     # textFromFile <<- .textFromFile
     .textFromFile <<- textFromFile
@@ -768,7 +776,45 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     myGlobalRmd[[repId]][chunkId] <- child
   }
   
+
+  # library(DiagrammeR)
+  # library(DiagrammeRsvg)
+  # library(rsvg)
+  # ffdot <- "projects/inno_impact/inno_impact_causal_v4.dot"
+  # ffpng <- "projects/inno_impact/inno_impact.png"
+  # graph <- grViz(ffdot)
+  # svg <- export_svg(graph)
+  # rsvg_png(charToRaw(svg), file = ffpng)
   
+  
+  if (grepl("dot", do) & file.exists(ffdot)){
+    log_trace("dot- inserting {ffdot} " )
+    if (!"headerData" %in% names(myGlobalRmd[[repId]])){
+      stop("no header, likely not initialized?")
+    }
+    
+    chunkSection <- NULL
+    tabbedPrefix <- ""
+    if (doTabbed > 0){
+      hashes <- paste0(rep("#", doTabbed), collapse = "")
+      tabbedPrefix <- paste0("\n\n", hashes, " ", chunkId, "\n\n")
+      chunkSection <- paste0(tabbedPrefix)#, '\n\n',chunkPrefix,' ', chunkId, chunkSectionModifier, '\n\n')
+    }
+    # 
+    # mdcontent <- readLines(ffmd)
+    child <- paste0(
+      chunkSection,
+      "\n```{r echo = FALSE}\n"
+      , 'DiagrammeR::grViz("', ffdot, '")'
+      , '\n```\n\n'
+      # , chunkCaption
+      # , '\n\n'
+    )
+    myGlobalRmd[[repId]][chunkId] <- child
+  }
+  
+
+    
   
   
   if (grepl("add", do) & !is.null(my_temp_file)) {
