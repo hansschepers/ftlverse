@@ -86,6 +86,7 @@ vrmd <- function(
     , githubPath = "https://github.com/hansschepers/"
     , ffmd = "test.md"
     , ffdot = "test.dot"
+    , dotfile = NULL
     , ffhtml = NULL
     , outputFilename = paste0(repId, ".rmd")  #TODO not prepared ofr repId from g.repId
     , reportTitle = paste("Report: ", repId)        #TODO not prepared ofr repId from g.repId
@@ -111,6 +112,7 @@ vrmd <- function(
     , chunkSectionModifier = "{-}"  # paste0(' {-#',chunkId,'}')
     
     , my_temp_file = file.path(tmpdir, paste0(make.names3(chunkId), ".png"))
+    , png_copy = NULL
     
     , section = NULL, rmdText = NULL
     , sectionLevel = 2
@@ -744,7 +746,7 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     
     myGlobalRmd[[repId]][tableId] <- child
   }
-
+  
   
   
   
@@ -776,7 +778,7 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     myGlobalRmd[[repId]][chunkId] <- child
   }
   
-
+  
   # library(DiagrammeR)
   # library(DiagrammeRsvg)
   # library(rsvg)
@@ -813,28 +815,36 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     myGlobalRmd[[repId]][chunkId] <- child
   }
   
-
-    
+  
+  
   
   
   if (grepl("add", do) & !is.null(my_temp_file)) {
-    if (is.null(p)) return("p is NULL") # {p <- ggplot2::last_plot()}
     if (!length(ffhtml)){
       ffhtml <- paste0(tempfile(), ".html")
     }
-    dev2pngArgList <- list(p = p
-                           , ffpng.out = ASCIIfy(my_temp_file)  # png output file
-                           , ggwidth = ggwidth
-                           , ggheight = ggheight
-                           # , relsize = relsize
-                           # , pxwidth = pxwidth, pxheight = pxheight
-                           # , aspect.ratio = aspect.ratio
-                           , ffhtml = ffhtml  # html output / intermediate file, save as '.ffhtml'
-                           , dpi = dpi)
-    # 20230527
-    suppressMessages(suppressWarnings({
-      my_temp_file <- do.call(dev2png, dev2pngArgList)
-    }))
+    my_temp_file <- ASCIIfy(my_temp_file)
+    if (!is.null(p)){ 
+      dev2pngArgList <- list(p = p
+                             , ffpng.out = my_temp_file  # png output file
+                             , ggwidth = ggwidth
+                             , ggheight = ggheight
+                             # , relsize = relsize
+                             # , pxwidth = pxwidth, pxheight = pxheight
+                             # , aspect.ratio = aspect.ratio
+                             , dotfile = dotfile
+                             , ffhtml = ffhtml  # html output / intermediate file, save as '.ffhtml'
+                             , dpi = dpi)
+      # 20230527
+      suppressMessages(suppressWarnings({
+        my_temp_file <- do.call(dev2png, dev2pngArgList)
+      }))
+      
+      } else {
+      
+      #   file.copy(my_temp_file)
+       log_info("p not given, using {my_temp_file}") # {p <- ggplot2::last_plot()}
+    }
     
     if (!exists("my_temp_file")) my_temp_file <- "test"
     # chunkRmdFileName <- paste0(make.names3(chunkId), ".Rmd")
@@ -1056,6 +1066,15 @@ knitr::opts_chunk$set(echo = FALSE)\n\
   
   
   if (isTRUE(insideUI)) return(NULL)  
+  if (!is.null(png_copy) && file.exists(my_temp_file)){
+    if (!dir.exists(dirname(png_copy))){
+      log_warn("creating dir: {dirname(png_copy)}")
+      dir.create(dirname(png_copy))
+    }
+    log_info("copied png to {png_copy}")
+    file.copy(my_temp_file, png_copy)
+  }
+  
   return(res)
 }
 
@@ -1120,7 +1139,7 @@ vrmdQuick <- function(repId
                       , headerData = list(reportTitle = reportTitle
                                           , reportSubtitle = ""
                                           , reportAuthor = "Hans Schepers" #tolower(Sys.getenv("USERNAME"))
-                                          )
+                      )
                       , ...){
   g.addRmd <<- TRUE
   if (exists("g.repId", envir = .GlobalEnv)){

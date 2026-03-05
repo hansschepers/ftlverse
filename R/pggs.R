@@ -1748,7 +1748,7 @@ pggs <- function(dfg
     if (free_y) facetscales = "free_y"
     if (free_x) facetscales = "free_x"
     if (free_y & free_x) facetscales = "free"
-  
+    
     if (!is.null(facet_w)) {
       p <- p + facet_wrap(
         as.formula(paste("~", as.name(facet_w)))
@@ -2150,7 +2150,6 @@ pggs <- function(dfg
         # pal.std <- c("black", "red", "green3", "blue", "cyan", "magenta", "yellow", "gray")
         pal.std = c("black", "red", "green", "blue", "magenta", "orange", "cyan", "violet", "darkred", "darkgreen", "darkblue", "gray")
         pal.skip <- pal.std[-1]
-        # bayer <- modelReduction::bayerPalette()
         # if (pal.oi != "pal.std"){
         # log_trace(pal.oi)
         # cp <- ggthemes::canva_palettes

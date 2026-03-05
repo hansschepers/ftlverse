@@ -10,10 +10,11 @@ dev2png <- function(p = NULL
                     , ffpng.out = NULL
                     , ggwidth = 14
                     , ggheight = 8
-                    , dpi = 150
+                    , dpi = 96
                     # , relsize = c(1.4, 1) # unused
                     # , pxwidth = 560, pxheight = 380
                     # , aspect.ratio = "auto" # unused
+                    , dotfile = NULL
                     , ffhtml = paste0(tempfile(), ".html")
 ){
   # if (aspect.ratio != "auto") {
@@ -65,6 +66,25 @@ dev2png <- function(p = NULL
   }
   
   ############################################################ ggplot object
+  if (inherits(p, "grViz")){
+    if (nchar(Sys.which("dot")) > 0) {
+      if (is.null(dotfile)) dotfile <- attr(p, "output_file")  # made by sketch()
+      if (!is.null(dotfile)){
+        # getwd()
+        # print(file.exists(dotfile))
+        # str(dotfile)
+        # str(my_temp_file)
+        # str(dpi)
+        system(glue('dot -Tpng -Gdpi={dpi} "{dotfile}" -o "{my_temp_file}"'))
+      }
+    } else {
+      log_warn("cannot process grViz on this machine")
+    }
+  }
+  
+  
+  
+  ############################################################ ggplot object
   if (inherits(p, "plotly")){
     # message("not yet implemented")
     # p <- plotly::as_widget(p)
@@ -80,27 +100,29 @@ dev2png <- function(p = NULL
   
   ############################################################ WIDGET: d3heatmap, leaflet map, ...
   # doWebshot <- all(c("htmlwidget") %in% class(p))
-  doWebshot <- inherits(p, "htmlTable") | inherits(p, "htmlwidget")
+  doWebshot <- inherits(p, "htmlTable")# | inherits(p, "htmlwidget")
   
   if (inherits(p, "htmlTable")){
     log_info("htmlTable, writing to ", ffhtml)
     writeLines(p, ffhtml)
+    editHtml <- TRUE
   } else {
-    log_info("htmlwidget, saving to ", ffhtml)
-    suppressWarnings(suppressMessages(
-      htmlwidgets::saveWidget(
-        p
-        , file = ffhtml
-        , selfcontained = TRUE
-        # , background = "#ccccff"
-        # , title = "test"
-        # , knitrOptions = list(fig.width = ggwidth
-        #                       , fig.height = ggheight)
-      )
-    ))
+    editHtml <- FALSE
+    # log_debug("htmlwidget, but not htmlTable ..")
+    
+    # suppressWarnings(suppressMessages(
+    #   htmlwidgets::saveWidget(
+    #     p
+    #     , file = ffhtml
+    #     , selfcontained = TRUE
+    #     # , background = "#ccccff"
+    #     # , title = "test"
+    #     # , knitrOptions = list(fig.width = ggwidth
+    #     #                       , fig.height = ggheight)
+    #   )
+    # ))
   }
   
-  editHtml <- TRUE
   if (editHtml){
     log_warn("editing html")
     html_content <- readLines(ffhtml)
