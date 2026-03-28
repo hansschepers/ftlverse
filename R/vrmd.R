@@ -36,8 +36,7 @@
 vrmd <- function(
     do = "nothing"  # "info"
     , p = NULL
-    # , ffpng.in=NULL
-    , ffpng.out=NULL, file="tmp.ppt"
+    # , file="tmp.ppt"
     , doTabbed = 0
     , tabbedSectionModifier = character(0)
     
@@ -113,6 +112,7 @@ vrmd <- function(
     
     , my_temp_file = file.path(tmpdir, paste0(make.names3(chunkId), ".png"))
     , png_copy = NULL
+    , png_given = NULL
     
     , section = NULL, rmdText = NULL
     , sectionLevel = 2
@@ -751,7 +751,15 @@ knitr::opts_chunk$set(echo = FALSE)\n\
   
   
   
-  if (grepl("md", do) & file.exists(ffmd)){
+  if ("md" %in% do){
+    if(!file.exists(ffmd)){
+      if(nzchar(ffmd)){
+        tmp_file <- tempfile(pattern = "fromVrmd_", fileext = ".md")
+        log_info("writing your md string to {tmp_file}")
+        cat(ffmd, file = tmp_file)
+        ffmd <- tmp_file
+      }
+    }
     log_trace("md- inserting {ffmd} " )
     if (!"headerData" %in% names(myGlobalRmd[[repId]])){
       stop("no header, likely not initialized?")
@@ -824,7 +832,7 @@ knitr::opts_chunk$set(echo = FALSE)\n\
       ffhtml <- paste0(tempfile(), ".html")
     }
     my_temp_file <- ASCIIfy(my_temp_file)
-    if (!is.null(p)){ 
+    if (!is.null(p)){
       dev2pngArgList <- list(p = p
                              , ffpng.out = my_temp_file  # png output file
                              , ggwidth = ggwidth
@@ -839,11 +847,16 @@ knitr::opts_chunk$set(echo = FALSE)\n\
       suppressMessages(suppressWarnings({
         my_temp_file <- do.call(dev2png, dev2pngArgList)
       }))
+      path_for_child <- basename(my_temp_file)
       
-      } else {
+    } else {
       
       #   file.copy(my_temp_file)
-       log_info("p not given, using {my_temp_file}") # {p <- ggplot2::last_plot()}
+      log_info("p not given, using {my_temp_file}") # {p <- ggplot2::last_plot()}
+      str(my_temp_file)
+      my_temp_file <- png_given
+      path_for_child <- png_given
+      
     }
     
     if (!exists("my_temp_file")) my_temp_file <- "test"
@@ -853,9 +866,11 @@ knitr::opts_chunk$set(echo = FALSE)\n\
     doubleCaption <- NULL
     # doubleCaption <- paste0("\n\n", chunkCaption,"\n\n")
     # chunkRmdContent <- paste0('knitr::include_graphics("', my_temp_file,'", dpi = 1000)')
+    
+    log_info("path_for_child: {path_for_child}")
     chunkRmdContent <- paste0('!['
                               , chunkCaption
-                              , '](', basename(my_temp_file), '){'
+                              , '](', path_for_child, '){'
                               , 'width=', childWidth2
                               # , ';#', chartClassAdded
                               ,'}'

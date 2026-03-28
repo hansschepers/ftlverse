@@ -1784,7 +1784,7 @@ pggs <- function(dfg
     
     # hiyois = c("SGR", "temperature")
     if (length(hiyois)){
-      more <- c(more, 'scale_fill_identity()')
+      # more <- c(more, 'scale_fill_identity()')
       variable.name <- aphVariables(as.data.table(dfg))
       backgr <- unique(as.data.table(dfg)[, ..variable.name])
       backgr[, bcol := ifelse(get(variable.name) %in% hiyois, hiyoisColor, NA)]

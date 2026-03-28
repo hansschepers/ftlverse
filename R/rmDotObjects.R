@@ -6,6 +6,7 @@ rmDotObjects <- function(keep = character()
                          , verbosity = log_threshold()){
   keep <- union(keep, c(".Random.seed"
                         , ".preStartSearchList"
+                        , ".claude_home", ".logging_env"
                         , ".rs.WorkingDataEnv"
                         , ".__global__"
                         , ".onAttach"

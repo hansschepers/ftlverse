@@ -135,12 +135,14 @@ grepCode <- function(rege = c("redux::", "<-function\\(")[1]
 #' fe
 #' 
 #' @export
-fe <- function(row, gg = .gg){
-  pre <- "../"
+fe <- function(row, gg = .gg, pre = ".", skip = "model_UQ/inst/FTLR/"){
   if (length(grep("miscPackages", getwd(), value = TRUE))) {
     pre <- "../../aphDH/"
   }
-  file.edit(paste0(pre, gg[row, file]))
+  ffr <- paste0(pre, gg[row, file])
+  ffr <- sub(skip, "", ffr)
+  str(ffr)
+  file.edit(ffr)
 }
 
 

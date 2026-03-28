@@ -1,22 +1,3 @@
-#' compSims
-#' @export
-compSims <- function(nm1 = "nm1", nm2 = "nm2"){
-  SIMS <- get(nm1)
-  SIMS0 <- get(nm2)
-  nms = grep("Date", names(SIMS), ignore.case = T, value = T)
-  cbind(list(s1 = 1, s2 = 2), rbind(SIMS[nms], SIMS0[nms]))
-  
-  # nms = grep("WAP", names(SIMS), ignore.case = T, value = T)
-  # cbind(list(s1 = 1, s2 = 2), rbind(SIMS[nms], SIMS0[nms]))
-  # 
-  # nms = grep("week", names(SIMS), ignore.case = T, value = T)
-  # cbind(list(s1 = 1, s2 = 2), rbind(SIMS[nms], SIMS0[nms]))
-  # 
-  # nms = grep("parms", names(SIMS), ignore.case = T, value = T)
-  # cbind(list(s1 = 1, s2 = 2), rbind(SIMS[nms], SIMS0[nms]))
-}
-
-
 #' compareSIMS
 #' @examples \dontrun{
 #'   SIMS <- runFun()
@@ -24,20 +5,22 @@ compSims <- function(nm1 = "nm1", nm2 = "nm2"){
 #'   SIMSdiffs <- compareSIMS(SIMS, SIMS2)
 #' }
 #' @export
-compareSIMS <- function(SIMS00
-                        , SIMS
-                        , skip = c("toReturn"
-                                   , "extraSpecs"
-                                   , "sessionI", "store", "packageVersion.s"
-                                   , "parameterComparison")
-                        , width = 120#floor(0.9 * getOption("width"))
-                        , nms = c(substitute(SIMS00), substitute(SIMS) )
-                        , verbosity = 0
-                        ){
-  pardiff <- compareParms(SIMS00$usedParms, SIMS$usedParms, keepPars = "")
-  res <- list(diff_title = diff2title(pardiff))
-  res
-}
+# compareSIMS <- function(SIMS0
+#                         , SIMS
+#                         , skip = c("toReturn"
+#                                    , "extraSpecs"
+#                                    , "sessionI", "store", "packageVersion.s"
+#                                    , "parameterComparison")
+#                         , width = 120#floor(0.9 * getOption("width"))
+#                         , nms = c(substitute(SIMS0), substitute(SIMS) )
+#                         , verbosity = 0
+#                         ){
+#   drvdiff <- compareNames(SIMS0$driverList, SIMS$driverList)
+#   print(drvdiff)
+#   pardiff <- compareParms(SIMS0$parms, SIMS$parms, keepPars = "")
+#   res <- list(diff_title = diff2title(pardiff))
+#   res
+# }
 
 
 # if(F){
